@@ -1,3 +1,12 @@
+<!-- Quiz contains 5 multiple choice questions with four answers -->
+<!-- 25 seconds timer, 10 second penalty deducted for incorrect answers -->
+<!-- Game Over = out of time or answered all questions correctly -->
+<!-- Score is displayed as Correct Answers -->
+<!-- Score (number of correct answers) and user initials are logged in separate window (use local storage) -->
+<!-- After entering initials user can save high score then reset and start over -->
+<!-- can choose to reset score and play again or log high score -->
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,11 +22,6 @@
     <header>
         <div class="header"></div>
         <h1>JavaScript Code Quiz</h1>
-        <!-- <h2>Test your JavaScript skills with this quiz, you have 25 seconds to complete</h2>
-        <h3>An incorrect answer will deduct 5 seconds off your timer.</h3>
-        <h4>After you finish you can log your high score if you like!</h4> -->
-        <!-- <div class="quiz"></div>
-        <button id="startButton">Start Quiz</button> -->
     </header>
 
     <div class="container">
@@ -42,12 +46,11 @@
         <div class="resultsContainer">
           <div class = "scoreContainer"><div>
           <h2>Correct Answers: <span class="correctAnswers">0 </span> </h2>
-          <!-- <h2>Losses: <span class="lose">0</span></h2> -->
         </div>
           <button class="resetScore" class="reset-log-button">Reset Score</button>
-          <button class="logHighScore" class="reset-log-button">Log High Score</button>
-     <!-- log high score button will bring you to a high scores page, 
-    the high score is the number correct -->
+          <a href="highScores.html" target="_blank">
+            <button class="logHighScore" class="reset-log-button">Log High Score</button>
+          </a> 
         </div>
           <div class= "card-timer">
             <div class="large-font timer-count">25</div>
