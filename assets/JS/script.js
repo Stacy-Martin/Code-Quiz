@@ -25,24 +25,25 @@ const answerButtonsElement = document.getElementById('answer-buttons')
 
 // var timerEl = document.getElementById('timer');
 
-// let shuffledQuestions, currentQuestionIndex
+let shuffledQuestions, currentQuestionIndex
 
 // let declares a variable and can initialize it's value, so it is starting the 
 // count of correct answers to zero, and the question index to zero so it will start with 
 // the first qu
-let countCorrectAnswers = 0;
-let currentQuestionIndex = 0;
+// let countCorrectAnswers = 0;
+// let currentQuestionIndex = 0;
 
 const win = document.getElementsByClassName('correctAnswers');
 // const lose = document.getElementsByClassName('lose');
 const resultsContainer = document.getElementsByClassName('scoreContainer');
-const timerEl = document.getElementsByClassName('timer-count')
+const timerEl = document.querySelector(".timer-count");
 
 var winCounter = 0;
 var loseCounter = 0;
 var isWin = false;
 var timer;
-// var timerCount;
+var timerCount;
+
 
 // The init function is called when the page loads 
 function init() {
@@ -82,10 +83,10 @@ function winGame() {
 
 // The loseGame function is called when timer reaches 0
 function loseGame() {
-  wordBlank.textContent = "GAME OVER";
+  timerEl.textContent = "GAME OVER";
   loseCounter++
   startButton.disabled = false;
-  setLosses()
+  // setLosses()
 }
 
 // Timer that counts down from 25
@@ -108,6 +109,7 @@ function timer() {
       timerEl.textContent = '';
       // Use `clearInterval()` to stop the timer
       clearInterval(timeInterval);
+      loseGame();
       // Call the `displayMessage()` function
       // displayMessage();
     }
@@ -117,7 +119,7 @@ function timer() {
 function setNextQuestion() {
   resetState()
   showQuestion(shuffledQuestions[currentQuestionIndex])
-  checkAnswer ()
+  // checkAnswer ()
 }
 
 function showQuestion(question) {
@@ -171,7 +173,7 @@ function setStatusClass(element, correct) {
 // this is adding my const questions to the quiz
 function clearStatusClass(element) {
   element.classList.remove('correct')
-  element.classList.remove('wrong')
+  // element.classList.remove('wrong')
 }
 
 // these are the questions for the quiz
@@ -237,31 +239,31 @@ var buttonBlock = false
 // naming a function which is going to update the winCounter every time
 // the current question is true 
 // innerHTML puts text dynamically into the HTML
-function correctAnswer(answer) {
-    if(questions[currentQuestionIndex].answers.correct == true) {
-      win.innerHTML = winCounter ++;
-    } 
-}
+// function correctAnswer(answer) {
+//     if(questions[currentQuestionIndex].answers.correct == true) {
+//       win.innerHTML = winCounter ++;
+//     } 
+// }
 
-function wrongAnswer(answer) {
-  if(questions[currentQuestionIndex].answers.correct == false) {
-    lose.innerHTML = loseCounter ++;
-  } 
-}
+// function wrongAnswer(answer) {
+//   if(questions[currentQuestionIndex].answers.correct == false) {
+//     lose.innerHTML = loseCounter ++;
+//   } 
+// }
 
-// function correctAnswer and wrongAnswer must be called 
+// // function correctAnswer and wrongAnswer must be called 
 
-// this is checking if the answers are true or false 
-function checkAnswer(answer){
-  if(buttonBlock == false) {
-    if(questions[currentQuestionIndex].correct == answer) {
-      correctAnswer(); 
-    }
-    else {
-      wrongAnswer(questions[currentQuestionIndex].correct)
-      wrongAnswer()
-    } 
-    buttonBlock=true
-  }
-}
+// // this is checking if the answers are true or false 
+// function checkAnswer(answer){
+//   if(buttonBlock == false) {
+//     if(questions[currentQuestionIndex].correct == answer) {
+//       correctAnswer(); 
+//     }
+//     else {
+//       wrongAnswer(questions[currentQuestionIndex].correct)
+//       wrongAnswer()
+//     } 
+//     buttonBlock=true
+//   }
+// }
 
