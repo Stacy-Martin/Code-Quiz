@@ -73,7 +73,7 @@ button {
   }
 
   /* this is the timer number that counts down */
-  .large-font {
+  .timer-count {
     font-size: 50pt;
     text-align:center;
   }

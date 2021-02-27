@@ -33,16 +33,16 @@ const answerButtonsElement = document.getElementById('answer-buttons')
 let countCorrectAnswers = 0;
 let currentQuestionIndex = 0;
 
-const win = document.getElementsByClassName('win');
-const lose = document.getElementsByClassName('lose');
-const resultsContainer = document.getElementsByClassName('results');
-const timerEl = document.getElementsByClassName('card-timer')
+const win = document.getElementsByClassName('correctAnswers');
+// const lose = document.getElementsByClassName('lose');
+const resultsContainer = document.getElementsByClassName('scoreContainer');
+const timerEl = document.getElementsByClassName('timer-count')
 
 var winCounter = 0;
 var loseCounter = 0;
 var isWin = false;
 var timer;
-var timerCount;
+// var timerCount;
 
 // The init function is called when the page loads 
 function init() {
@@ -51,6 +51,7 @@ function init() {
 }
 
 startButton.addEventListener('click', startGame)
+
 nextButton.addEventListener('click', () => {
   currentQuestionIndex++
   setNextQuestion()
@@ -71,10 +72,25 @@ function startGame() {
   // lose.classList.remove('hide')
 }
 
+// The winGame function is called when the win condition is met
+function winGame() {
+  wordBlank.textContent = "YOU WON!!!🏆 ";
+  winCounter++
+  startButton.disabled = false;
+  setWins()
+}
+
+// The loseGame function is called when timer reaches 0
+function loseGame() {
+  wordBlank.textContent = "GAME OVER";
+  loseCounter++
+  startButton.disabled = false;
+  setLosses()
+}
+
 // Timer that counts down from 25
 function timer() {
   var timeLeft = 25;
-
   // Use the `setInterval()` method to call a function to be executed every 1000 milliseconds
   var timeInterval = setInterval(function () {
     // As long as the `timeLeft` is greater than 1
