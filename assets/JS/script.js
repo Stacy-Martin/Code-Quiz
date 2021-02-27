@@ -1,18 +1,42 @@
+// var declarations are globally scoped or function scoped 
+// while let and const are block scoped - let is limited to 
+// the block in which it is declared while variable declared. 
+// var variables can be updated and re-declared within its scope; 
+// let variables can be updated but not re-declared; 
+// const variables can neither be updated nor re-declared. 
+// They are all hoisted to the top of their scope.
+
+// var uses something called ‘hoisting’, which can lead to unexpected results.
+// let and const are both block-scoped. Which means you can declare them in for loop or 
+// if statement, and they will only be valid for that block. This helps with spotting 
+// bugs and makes your code more robust. const prevents variable re-assignment.
+
+// In the case for the for loop. Every iteration of the loop is a new ‘block scope’, so 
+// I am in fact able to re-create a new constant for every iteration.
+
+// It’s useful to use const instead of let, because it prevents you from accidentally 
+// overwriting variables. 
+
 const startButton = document.getElementById('start-btn')
 const nextButton = document.getElementById('next-btn')
 const questionContainerElement = document.getElementById('question-container')
 const questionElement = document.getElementById('question')
 const answerButtonsElement = document.getElementById('answer-buttons')
 
-var timerEl = document.getElementById('timer');
+// var timerEl = document.getElementById('timer');
 
-let shuffledQuestions, currentQuestionIndex
-let countRightAnswers = 0;
+// let shuffledQuestions, currentQuestionIndex
+
+// let declares a variable and can initialize it's value, so it is starting the 
+// count of correct answers to zero, and the question index to zero so it will start with 
+// the first qu
+let countCorrectAnswers = 0;
+let currentQuestionIndex = 0;
 
 const win = document.getElementsByClassName('win');
 const lose = document.getElementsByClassName('lose');
 const resultsContainer = document.getElementsByClassName('results');
-const timerElement = document.getElementsByClassName('timer')
+const timerEl = document.getElementsByClassName('card-timer')
 
 var winCounter = 0;
 var loseCounter = 0;
@@ -33,16 +57,23 @@ nextButton.addEventListener('click', () => {
 })
 
 function startGame() {
+  winCounter=0
+  loseCounter=0
   startButton.classList.add('hide')
   shuffledQuestions = questions.sort(() => Math.random() - .5)
   currentQuestionIndex = 0
   questionContainerElement.classList.remove('hide')
   setNextQuestion()
+  // because the timer was broken down into an individual function it could be called 
+  // here at the start of the game
+  timer()
+  // resultsContainer.classList.remove('hide')
+  // lose.classList.remove('hide')
 }
 
-// Timer that counts down from 10
+// Timer that counts down from 25
 function timer() {
-  var timeLeft = 10;
+  var timeLeft = 25;
 
   // Use the `setInterval()` method to call a function to be executed every 1000 milliseconds
   var timeInterval = setInterval(function () {
@@ -62,7 +93,7 @@ function timer() {
       // Use `clearInterval()` to stop the timer
       clearInterval(timeInterval);
       // Call the `displayMessage()` function
-      displayMessage();
+      // displayMessage();
     }
   }, 1000);
 }
@@ -70,6 +101,7 @@ function timer() {
 function setNextQuestion() {
   resetState()
   showQuestion(shuffledQuestions[currentQuestionIndex])
+  checkAnswer ()
 }
 
 function showQuestion(question) {
@@ -101,9 +133,11 @@ function selectAnswer(e) {
   Array.from(answerButtonsElement.children).forEach(button => {
     setStatusClass(button, button.dataset.correct)
   })
+  // this is where the questions are shuffled and the next button is revealed 
   if (shuffledQuestions.length > currentQuestionIndex + 1) {
     nextButton.classList.remove('hide')
   } else {
+  // this is where the Next button is changed to Restart after the 5 questions
     startButton.innerText = 'Restart'
     startButton.classList.remove('hide')
   }
@@ -118,6 +152,7 @@ function setStatusClass(element, correct) {
   }
 }
 
+// this is adding my const questions to the quiz
 function clearStatusClass(element) {
   element.classList.remove('correct')
   element.classList.remove('wrong')
@@ -137,9 +172,9 @@ const questions = [
   {
       question: "How many primitive types of JavaScript are there?",
       answers: [
-        { text:  "9",  correct: false },
-        { text:  "4",  correct: false },
-        { text:  "7",  correct: true },
+        { text:  "09",  correct: false },
+        { text:  "04",  correct: false },
+        { text:  "07",  correct: true },
         { text: "22",  correct: false },
       ]
   },
@@ -172,7 +207,45 @@ const questions = [
   },
 ]
 
-timer()
+// let currentQuestionIndex=0
+
+// sets all buttons false initially until they are clicked correctly and may b
+// become true
+var buttonBlock = false
+
+// function scoreKeeper() {
+
+// }
 
 
+// naming a function which is going to update the winCounter every time
+// the current question is true 
+// innerHTML puts text dynamically into the HTML
+function correctAnswer(answer) {
+    if(questions[currentQuestionIndex].answers.correct == true) {
+      win.innerHTML = winCounter ++;
+    } 
+}
+
+function wrongAnswer(answer) {
+  if(questions[currentQuestionIndex].answers.correct == false) {
+    lose.innerHTML = loseCounter ++;
+  } 
+}
+
+// function correctAnswer and wrongAnswer must be called 
+
+// this is checking if the answers are true or false 
+function checkAnswer(answer){
+  if(buttonBlock == false) {
+    if(questions[currentQuestionIndex].correct == answer) {
+      correctAnswer(); 
+    }
+    else {
+      wrongAnswer(questions[currentQuestionIndex].correct)
+      wrongAnswer()
+    } 
+    buttonBlock=true
+  }
+}
 
