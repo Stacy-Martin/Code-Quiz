@@ -10,64 +10,64 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JS Code Quiz</title>
+
+    <!-- link to Bootstrap CSS stylesheet -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- my CSS stylesheet -->
     <link rel="stylesheet" href="assets/CSS/style.css">
 </head>
 
 <body>
-
-    <header>
-        <div class="header"></div>
-        <h1>JavaScript Code Quiz</h1>
+  <div class="container">
+    <main class="jumbotron">
+      <header>
+        <h2 id="timer"></h2>
+        <h2 <button id="highScoresBtn" type="button" class="btn btn-primary">View High Scores List</h2>
     </header>
 
-    <div class="container">
-        <div id="question-container" class="hide">
-            <div id="question">Question</div>
-            <div id="answer-buttons" class="btn-grid">
-                <button class="btn">Answer 1</button>
-                <button class="btn">Answer 2</button>
-                <button class="btn">Answer 3</button>
-                <button class="btn">Answer 4</button>
-            </div>
-        </div>
-        <!-- this is the Start Quiz, and Next/Reset Button, Reset buttons is activated in JS-->
-        <div class="controls">
-            <button id="start-btn" class="start-btn btn">Start Quiz</button>
-            <button id="next-btn" class="next-btn btn hide">Next</button>
-         </div>
-         <!-- <span id="right-answers"></span> -->
-    </div>
+    <section>
+      <h1 class="quizInfo">JavaScript Skills Challenge!</h1>
+        <p class="instructionsP">Try this 5 question, multiple choice quiz! You have 25 seconds to complete the quiz.  <br>
+          An incorrect answer has a penalty of 5 second time deduction. <br>Your score is equal to the time 
+          remaining.  <br>Good luck!!</p>
+        <p class="instructionsP">
+          <button id="startQuizBtn" type="button" class="btn btn-primary">Start Quiz</button>
+        
+          <!-- this is where the questions are stored and the buttons to click through the questions -->
+          <p class="questions"></p>
+        <ol id="questionList">
+          <li><button id="answer1" type="button" class="btn btn-primary"></button></li>
+          <li><button id="answer2" type="button" class="btn btn-primary"></button></li>
+          <li><button id="answer3" type="button" class="btn btn-primary"></button></li>
+          <li><button id="answer4" type="button" class="btn btn-primary"></button></li>
+        </ol>
+        
+        <!-- this is the scoring section, right or wrong -->
+        <div class="rightAnswer">You are a whiz!</div>
+        <div class="wrongAnswer">Sorry, wrong this time..</div>
+        <ol class="listList" id="scores"></ol>
+        <button class="clearBtn btn btn-primary">Clear Highscores</button>
+        <button class="restartBtn btn btn-primary">Restart Quiz</button>
+        </section>
 
-    <section class="container">
-        <div class="resultsContainer">
-          <div class = "scoreContainer"><div>
-          <h2>Correct Answers: <span class="correctAnswers">0 </span> </h2>
-        </div>
-          <button class="resetScore" class="reset-log-button">Reset Score</button>
-          <a href="highScores.html" target="_blank">
-            <button class="logHighScore" class="reset-log-button">Log High Score</button>
-          </a> 
-        </div>
-          <div class= "card-timer">
-            <div class="timer-count">25</div>
-            <h3>seconds remaining</h3>
-          </div>
-        </div>
-    </section>
+    </main>   
+  </div>
 
+  <footer>
+    <h6>2021 Kaimani</h6>
+  </footer>
 
-    <footer>
-        <h6>2021 Kaimani</h6>
-    </footer>
+<!-- my JS file -->
+<script src="assets/JS/script.js"></script>
 
 </body>
-
-<script src="assets/JS/script.js"></script>
 
 </html>
 

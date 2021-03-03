@@ -1,3 +1,315 @@
+//DOM elements
+var start = document.querySelector("#startQuizBtn");
+var mainEl = document.querySelector(".instructionsP");
+var headEl = document.querySelector(".quizInfo");
+var jumbo = document.querySelector(".jumbotron");
+var timerDisplay = document.getElementById("timer");
+var viewHighScores = document.getElementById("highScoresBtn");
+const questions = document.querySelector(".questions");
+var answerList = document.querySelector("#questionList");
+var answerbox1 = document.getElementById("answer1");
+var answerbox2 = document.getElementById("answer2");
+var answerbox3 = document.getElementById("answer3");
+var answerbox4 = document.getElementById("answer4");
+var scoreBoard = document.querySelector("#scores");
+var clearScores = document.querySelector(".clearBtn");
+var restartQuiz = document.querySelector(".restartBtn");
+var answerResponseCorrect = document.querySelector(".rightAnswer");
+var answerResponseWrong = document.querySelector(".wrongAnswer");
+// var underAnswerLine = document.querySelector(".underAnswerLine");
+
+//Hiding buttons and Elements
+questionList.style.visibility = "hidden";
+answer1.style.visibility = "hidden";
+answer2.style.visibility = "hidden";
+answer3.style.visibility = "hidden";
+answer4.style.visibility = "hidden";
+// questions.style.visibility = "hidden";
+clearScores.style.visibility = "hidden";
+restartQuiz.style.visibility = "hidden";
+answerResponseCorrect.style.display = "none";
+answerResponseWrong.style.display = "none";
+// underAnswerLine.style.display = "none";
+
+//First page event listeners
+start.addEventListener("click", firstTimer);
+viewHighScores.addEventListener("click", viewHighScoresButton);
+
+// these are the questions for the quiz
+const qAndA = [
+  {
+      question: "Where do you link JavaScript in the HTML?",
+      answer1: "At the bottom of the body",  
+      answer2: "At the top of the body",  
+      answer3:  "At the bottom of the header", 
+      answer4: "It doesn't need to be referenced", 
+      correct: "At the bottom of the body",  
+  },
+  {
+      question: "How many primitive types of JavaScript are there?",
+      answer1: "09", 
+      answer2:  "04",  
+      answer3:  "07",  
+      answer4: "22",  
+      correct: "07",
+  },
+  {
+      question: "What are the primitive types of JavaScript?",
+      answer1: "undefined, variable, number, true, bigint, symbol, none",  
+      answer2: "undefined, string, number, boolean, bigint, symbol, null",  
+      answer3:  "undefined, variable, number, false, bigint, character, none",  
+      answer4:  "unrelated, string, character, boolean, integer, symbol, none",  
+      correct: "undefined, string, number, boolean, bigint, symbol, null",  
+  },
+  {
+      question: "What tool can be used to view the JavaScript code and troubleshoot from within the browswer?",
+      answer1: "the console log",
+      answer2: "the inspector",  
+      answer3:  "the refactor tool",  
+      answer4:  "developer tool",  
+      correct: "the console log",
+  },
+  {
+      question: "Which of the following are NOT a characteristic of arrays?",
+      answer1: "used to store groups of data in a single variable", 
+      answer2: "used to define functions", 
+      answer3: "can have methods or properties applied to them",  
+      answer4: "they are zero-indexed",  
+      correct: "used to define functions",
+  },
+]
+
+
+//Start Quiz Timer
+var secondsLeft = 3;
+function firstTimer() {
+    var timerInterval = setInterval(function () {
+        secondsLeft--;
+        mainEl.textContent = secondsLeft;
+        mainEl.style.fontSize = "250px";
+        headEl.textContent = "Starting in...";
+        start.style.visibility = "hidden";
+
+        if (secondsLeft === 0) {
+            clearInterval(timerInterval);
+            quiz(i);
+        }
+    }, 1000);
+}
+
+//Quiz formatting and timer
+var quizTimer = 60;
+var playerScore = 0;
+var i = 0;
+function quiz(i) {
+    var timerInveral = setInterval(function () {
+        answerbox1.style.visibility = "visible";
+        answerbox2.style.visibility = "visible";
+        answerbox3.style.visibility = "visible";
+        answerbox4.style.visibility = "visible";
+        answerList.style.visibility = "visible";
+        questions.style.visibility = "visible";
+        // underAnswerLine.style.display = "block";
+        mainEl.textContent = "";
+        headEl.textContent = "";
+        jumbo.style.paddingTop = "5px";
+        quizTimer--;
+        timerDisplay.textContent = ("Score: " + playerScore + "   Time: " + quizTimer);
+
+        //determines when to call final page
+        if (finalPage.called === true || quizTimer === 0 || finalQuestion === true) {
+            var finalScore = quizTimer + playerScore;
+            clearInterval(timerInveral);
+            finalPage(finalScore);
+            return;
+        }
+    }, 1000)
+    questionMaker(i);
+}
+
+//generates the qustions and answers
+var finalQuestion = false;
+function questionMaker(i) {
+    if (i === qAndA.length) {
+        finalQuestion = true;
+        return;
+    }
+    questions.textContent = qAndA[i].question;
+    questions.style.fontSize = "20px";
+    answerbox1.textContent = qAndA[i].answer1;
+    answerbox2.textContent = qAndA[i].answer2;
+    answerbox3.textContent = qAndA[i].answer3;
+    answerbox4.textContent = qAndA[i].answer4;
+
+    //event listener for answers
+    answerbox1.addEventListener("click", function () {
+        answerCheck(answerbox1, i);
+    });
+    answerbox2.addEventListener("click", function () {
+        answerCheck(answerbox2, i);
+    });
+    answerbox3.addEventListener("click", function () {
+        answerCheck(answerbox3, i);
+    });
+    answerbox4.addEventListener("click", function () {
+        answerCheck(answerbox4, i);
+    });
+}
+
+//checks if clicked answer is correct
+var iterationChecker = 0;    //prevents i from iterating backwards bug
+function answerCheck(answer, i) {
+    if (iterationChecker === i) {
+        if (answerResponseWrong.style.display === "block") {
+            answerResponseWrong.style.display = "none";
+        }
+        else if (answerResponseCorrect.style.display === "block") {
+            answerResponseCorrect.style.display = "none";
+        };
+        if (answer.textContent === qAndA[i].correct) {
+            playerScore = playerScore + 10;
+            i++;
+            iterationChecker++;
+            answerResponseCorrect.style.display = "block";
+            return questionMaker(i);
+        }
+        else {
+            i++;
+            iterationChecker++;
+            answerResponseWrong.style.display = "block";
+            return questionMaker(i);
+        };
+    }
+}
+
+//finalPage
+function finalPage(finalScore) {
+
+    //general formatting
+    answerList.remove();
+    questions.remove();
+    timerDisplay.remove();
+    // underAnswerLine.remove();
+    // if (answerResponseWrong.style.display === "block") {
+    //     answerResponseWrong.style.display = "none";
+    // }
+    // if (answerResponseCorrect.style.display === "block") {
+    //     answerResponseCorrect.style.display = "none";
+    // }
+    scoreBoard.textContent = "High Scores:";
+    scoreBoard.style.fontSize = "20px";
+    finalPage.called = true;
+    headEl.style.visibility = "visible";
+    headEl.textContent = "Nice Work!";
+
+    //Setting to local storage
+    var name = prompt("Nice work! You earned a score of " + finalScore + "! Please enter your name to record your score.");
+    if (name === "") {
+        name = prompt("Nice work! You earned a score of " + finalScore + "! Please enter your name to record your score.");
+    }
+    addToStorage(name, finalScore);
+    return;
+}
+
+//adds to storage then generates scoreboard
+function addToStorage(name, finalScore) {
+    var localScore = JSON.parse(localStorage.getItem("allScores"));
+    if (localScore === null) {
+        localStorage.setItem("allScores", JSON.stringify([{ key: name, score: finalScore }]))
+    }
+    else {
+        localScore.push({ key: name, score: finalScore });
+        localStorage.setItem("allScores", JSON.stringify(localScore));
+    }
+    generateScoreboard();
+}
+
+//generate scoreboard function
+function generateScoreboard() {
+    var localScore = [];
+    var localOrderedScore = [];
+    localScore = JSON.parse(localStorage.getItem("allScores"));
+    //sorts score into descending order
+    localOrderedScore = localScore.sort(function (a, b) { return (b.score - a.score) });
+    for (let i = 0; i < localOrderedScore.length; i++) {
+        var li = document.createElement("li");
+        li.textContent = ((i + 1) + ". User " + localOrderedScore[i].key + " with " + localOrderedScore[i].score + " points");
+        li.setAttribute("data-index", i);
+        li.classList.add("list-group-item");
+        li.classList.add("list-group-item-action");
+        scoreBoard.appendChild(li);
+    }
+
+    //clear highscores button
+    clearScores.style.visibility = "visible";
+    clearScores.textContent = "Clear Highscores";
+    clearScores.addEventListener("click", function () {
+        localStorage.clear();
+        scoreBoard.remove();
+        clearScores.remove();
+    });
+
+    //restart quiz button
+    restartQuiz.style.visibility = "visible";
+    restartQuiz.textContent = "Restart Quiz";
+    restartQuiz.addEventListener("click", function () {
+        window.location.reload(false);
+    });
+}
+
+
+//Scoreboard generated when viewHighScores button is clicked
+function viewHighScoresButton() {
+    start.remove();
+    mainEl.textContent = "";
+    headEl.textContent = "";
+    answerList.remove();
+    questions.remove();
+    timerDisplay.remove();
+    // underAnswerLine.remove();
+    // if (answerResponseWrong.style.display === "block") {
+    //     answerResponseWrong.style.display = "none";
+    // }
+    // if (answerResponseCorrect.style.display === "block") {
+    //     answerResponseCorrect.style.display = "none";
+    // }
+    scoreBoard.textContent = "High Scores:";
+    scoreBoard.style.fontSize = "20px";
+    finalPage.called = true;
+    headEl.style.visibility = "visible";
+    // headEl.textContent = "The All-Time Greatest";
+
+    var localScore = [];
+    var localOrderedScore = [];
+    localScore = JSON.parse(localStorage.getItem("allScores"));
+    //sorts score into descending order
+    localOrderedScore = localScore.sort(function (a, b) { return (b.score - a.score) });
+    for (let i = 0; i < localOrderedScore.length; i++) {
+        var li = document.createElement("li");
+        li.textContent = ((i + 1) + ". User " + localOrderedScore[i].key + " with " + localOrderedScore[i].score + " points");
+        li.setAttribute("data-index", i);
+        li.classList.add("list-group-item");
+        li.classList.add("list-group-item-action");
+        scoreBoard.appendChild(li);
+    }
+
+    //clear highscores button
+    clearScores.style.visibility = "visible";
+    clearScores.textContent = "Clear Highscores";
+    clearScores.addEventListener("click", function () {
+        localStorage.clear();
+        scoreBoard.remove();
+        clearScores.remove();
+    });
+
+    //restart quiz button
+    restartQuiz.style.visibility = "visible";
+    restartQuiz.textContent = "Restart Quiz";
+    restartQuiz.addEventListener("click", function () {
+        window.location.reload(false);
+    });
+}
+
 // var declarations are globally scoped or function scoped 
 // while let and const are block scoped - let is limited to 
 // the block in which it is declared while variable declared. 
@@ -16,254 +328,3 @@
 
 // It’s useful to use const instead of let, because it prevents you from accidentally 
 // overwriting variables. 
-
-const startButton = document.getElementById('start-btn')
-const nextButton = document.getElementById('next-btn')
-const questionContainerElement = document.getElementById('question-container')
-const questionElement = document.getElementById('question')
-const answerButtonsElement = document.getElementById('answer-buttons')
-
-// var timerEl = document.getElementById('timer');
-
-let shuffledQuestions, currentQuestionIndex
-
-// let declares a variable and can initialize it's value, so it is starting the 
-// count of correct answers to zero, and the question index to zero so it will start with 
-// the first qu
-// let countCorrectAnswers = 0;
-// let currentQuestionIndex = 0;
-
-const win = document.getElementsByClassName('correctAnswers');
-// const lose = document.getElementsByClassName('lose');
-const resultsContainer = document.getElementsByClassName('scoreContainer');
-const timerEl = document.querySelector(".timer-count");
-
-var winCounter = 0;
-var loseCounter = 0;
-var isWin = false;
-var timer;
-var timerCount;
-
-
-// The init function is called when the page loads 
-function init() {
-  getWins();
-  getlosses();
-}
-
-startButton.addEventListener('click', startGame)
-
-nextButton.addEventListener('click', () => {
-  currentQuestionIndex++
-  setNextQuestion()
-})
-
-function startGame() {
-  winCounter=0
-  loseCounter=0
-  startButton.classList.add('hide')
-  shuffledQuestions = questions.sort(() => Math.random() - .5)
-  currentQuestionIndex = 0
-  questionContainerElement.classList.remove('hide')
-  setNextQuestion()
-  // because the timer was broken down into an individual function it could be called 
-  // here at the start of the game
-  timer()
-  // resultsContainer.classList.remove('hide')
-  // lose.classList.remove('hide')
-}
-
-// The winGame function is called when the win condition is met
-function winGame() {
-  wordBlank.textContent = "YOU WON!!!🏆 ";
-  winCounter++
-  startButton.disabled = false;
-  setWins()
-}
-
-// The loseGame function is called when timer reaches 0
-function loseGame() {
-  timerEl.textContent = "GAME OVER";
-  loseCounter++
-  startButton.disabled = false;
-  // setLosses()
-}
-
-// Timer that counts down from 25
-function timer() {
-  var timeLeft = 25;
-  // Use the `setInterval()` method to call a function to be executed every 1000 milliseconds
-  var timeInterval = setInterval(function () {
-    // As long as the `timeLeft` is greater than 1
-    if (timeLeft > 1) {
-      // Set the `textContent` of `timerEl` to show the remaining seconds
-      timerEl.textContent = timeLeft + ' seconds remaining';
-      // Decrement `timeLeft` by 1
-      timeLeft--;
-    } else if (timeLeft === 1) {
-      // When `timeLeft` is equal to 1, rename to 'second' instead of 'seconds'
-      timerEl.textContent = timeLeft + ' second remaining';
-      timeLeft--;
-    } else {
-      // Once `timeLeft` gets to 0, set `timerEl` to an empty string
-      timerEl.textContent = '';
-      // Use `clearInterval()` to stop the timer
-      clearInterval(timeInterval);
-      loseGame();
-      // Call the `displayMessage()` function
-      // displayMessage();
-    }
-  }, 1000);
-}
-
-function setNextQuestion() {
-  resetState()
-  showQuestion(shuffledQuestions[currentQuestionIndex])
-  // checkAnswer ()
-}
-
-function showQuestion(question) {
-  questionElement.innerText = question.question
-  question.answers.forEach(answer => {
-    const button = document.createElement('button')
-    button.innerText = answer.text
-    button.classList.add('btn')
-    if (answer.correct) {
-      button.dataset.correct = answer.correct
-    }
-    button.addEventListener('click', selectAnswer)
-    answerButtonsElement.appendChild(button)
-  })
-}
-
-function resetState() {
-  clearStatusClass(document.body)
-  nextButton.classList.add('hide')
-  while (answerButtonsElement.firstChild) {
-    answerButtonsElement.removeChild(answerButtonsElement.firstChild)
-  }
-}
-
-function selectAnswer(e) {
-  const selectedButton = e.target
-  const correct = selectedButton.dataset.correct
-  setStatusClass(document.body, correct)
-  Array.from(answerButtonsElement.children).forEach(button => {
-    setStatusClass(button, button.dataset.correct)
-  })
-  // this is where the questions are shuffled and the next button is revealed 
-  if (shuffledQuestions.length > currentQuestionIndex + 1) {
-    nextButton.classList.remove('hide')
-  } else {
-  // this is where the Next button is changed to Restart after the 5 questions
-    startButton.innerText = 'Restart'
-    startButton.classList.remove('hide')
-  }
-}
-
-function setStatusClass(element, correct) {
-  clearStatusClass(element)
-  if (correct) {
-    element.classList.add('correct')
-  } else {
-    element.classList.add('wrong')
-  }
-}
-
-// this is adding my const questions to the quiz
-function clearStatusClass(element) {
-  element.classList.remove('correct')
-  // element.classList.remove('wrong')
-}
-
-// these are the questions for the quiz
-const questions = [
-  {
-      question: "Where do you reference JavaScript in the HTML?",
-      answers: [
-        { text: "At the bottom of the body",  correct: true },
-        { text: "At the top of the body",  correct: false },
-        { text:  "At the bottom of the header",  correct: false },
-        { text: "It doesn't need to be referenced",  correct: false },
-      ]
-  },
-  {
-      question: "How many primitive types of JavaScript are there?",
-      answers: [
-        { text:  "09",  correct: false },
-        { text:  "04",  correct: false },
-        { text:  "07",  correct: true },
-        { text: "22",  correct: false },
-      ]
-  },
-  {
-      question: "What are the primitive types of JavaScript?",
-      answers: [
-        { text: "undefined, variable, number, true, bigint, symbol, none",  correct: false },
-        { text: "undefined, string, number, boolean, bigint, symbol, null",  correct: true },
-        { text:  "undefined, variable, number, false, bigint, character, none",  correct: false },
-        { text:  "unrelated, string, character, boolean, integer, symbol, none",  correct: false },
-      ]
-  },
-  {
-      question: "What tool can be used to view the JavaScript code and troubleshoot from within the browswer?",
-      answers: [
-        { text: "the console log",  correct: true },
-        { text: "the inspector",  correct: false },
-        { text:  "the refactor tool",  correct: false },
-        { text:  "developer tool",  correct: false },
-      ]
-  },
-  {
-      question: "Which of the following are NOT a characteristic of arrays?",
-      answers: [
-          { text: "used to store groups of data in a single variable",  correct: false },
-          { text: "used to define functions",  correct: true },
-          { text: "can have methods or properties applied to them",  correct: false },
-          { text: "they are zero-indexed",  correct: false },
-    ]
-  },
-]
-
-// let currentQuestionIndex=0
-
-// sets all buttons false initially until they are clicked correctly and may b
-// become true
-var buttonBlock = false
-
-// function scoreKeeper() {
-
-// }
-
-
-// naming a function which is going to update the winCounter every time
-// the current question is true 
-// innerHTML puts text dynamically into the HTML
-// function correctAnswer(answer) {
-//     if(questions[currentQuestionIndex].answers.correct == true) {
-//       win.innerHTML = winCounter ++;
-//     } 
-// }
-
-// function wrongAnswer(answer) {
-//   if(questions[currentQuestionIndex].answers.correct == false) {
-//     lose.innerHTML = loseCounter ++;
-//   } 
-// }
-
-// // function correctAnswer and wrongAnswer must be called 
-
-// // this is checking if the answers are true or false 
-// function checkAnswer(answer){
-//   if(buttonBlock == false) {
-//     if(questions[currentQuestionIndex].correct == answer) {
-//       correctAnswer(); 
-//     }
-//     else {
-//       wrongAnswer(questions[currentQuestionIndex].correct)
-//       wrongAnswer()
-//     } 
-//     buttonBlock=true
-//   }
-// }
-

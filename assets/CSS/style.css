@@ -2,24 +2,102 @@ body {
     background-color:slategray;
 }
 
+.jumbotron {
+    padding: 10px;
+  }
+
+.quizInfo {
+    text-align: center;
+    padding-top: 50px;
+    font-family: fantasy;
+    color: cyan;
+    text-shadow: 2px 2px slategray;
+  }
+
+.instructionsP {
+    text-align: center;
+    color: slategray;
+    text-shadow: 1px 1px cyan
+  }
+
+/* hover button color */
+#highScoresBtn:hover {
+  background-color: slategray
+}
+
+/* timer */
+#timer {
+  text-align: right;
+  font-size: 18px;
+  color: slategray;
+  float: right;
+}
+
+#questionList {
+  padding: 10px
+}
+
+.btn:hover {
+  background-color: slategray
+}
+
+.btn {
+  margin: 10px;
+  color: cyan;
+  background-color: hotpink;
+  margin-left: 10px;
+  font-size: 18pt;
+  /* position: fixed; */
+  text-align: left;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+
+
+
+
+
+
+
+/* general styling for all buttons
+#btn {
+  background-color: cyan;
+  border-radius: 8px;
+  color: #13293d;
+  cursor: pointer;
+  font-size: 18pt;
+  letter-spacing: 0.21px;
+  /* line-height: 30px; */
+  /* padding: 20px;
+  text-align: center;
+  margin-top: 0.6em;
+  gap: 50px;
+} */
+/* 
+#btn-primary {
+  background-color: cyan;
+} */ 
+
 /* "JavaScript Code Quiz" */
-header {
+/* header {
     background:hotpink;
     color: #fff;
     font-size: 14pt;
     font-family: fantasy;
     text-align: center;
     /* padding: 40px; */
-    margin: 10px;
-    padding: 1px;
+    /* margin: 10px;
+    padding: 1px; */
     /* height:40pt; */
     /* border-bottom:30px #879274; */
-    
-  }
+  /* } */ 
+
+
 
 /* this is the question card section with the start button and next/reset buttons */
 /* max-widtht to 100% stretches the box when screen size changes */
-.container {
+/* .container {
     max-width: 100%;
     background-color:whitesmoke;
     border-radius: 5px;
@@ -30,64 +108,48 @@ header {
 }
 
 /* these are the answer/next/reset buttons in a grid format */
-.btn-grid {
+/* .btn-grid {
     display: grid;
     grid-template-columns: repeat(2, auto);
     gap: 10px;
     justify-content: center;
     padding: 5px 10px;
-}
+} */
 
-.btn:hover{
-    color:hotpink
-}
 
 /* individual style for start and next buttons make them bigger and bolder than answers */
-.controls {
+/* .controls {
     display: flex;
     justify-content: center;
     font-size:1.5rem;
     font-weight: bold;
     padding: 20px;
     align-items: center;
-}
+} */
 
 /* this hides (in JS) the next button until after game starts */
-.hide {
+/* .hide {
     display: none;
-}
+} */
 
-/* general styling for all buttons */
-button {
-    background: cyan;
-    border-radius: 8px;
-    color: #13293d;
-    cursor: pointer;
-    font-size: 18pt;
-    letter-spacing: 0.21px;
-    /* line-height: 30px; */
-    padding: 20px;
-    text-align: center;
-    margin-top: 0.6em;
-    gap: 50px;
-  }
+
 
   /* this is the timer number that counts down */
-  .timer-count {
+  /* .timer-count {
     font-size: 50pt;
     text-align:center;
-  }
+  } */
 
   /* "seconds remaining" text */
-  h3 {
+  /* h3 {
       padding: 1px;
       margin: 1px;
       font-weight: initial;
       font-size: 30pt;
-  }
+  } */
 
   /* this is the black box the timer is in */
-  .card-timer {
+  /* .card-timer {
     height: 130px;
     padding: 10px;
     margin: 20px;
@@ -96,44 +158,44 @@ button {
     background: #13293d;
     color: hotpink;
     text-align: center;
-  }
+  } */
 
   /* "Correct Answer" text */
-  h2 {
+  /* h2 {
     text-align: center;
     font-size: 28pt;
     color:black;
     text-shadow: 2px 2px cyan;
     padding: 20px;
     /* the following styling are to prevent the user agent stylesheet */
-    margin-block-start: 0;
+    /* margin-block-start: 0;
     margin-block-end: 0;
     margin-inline-start: 0;
     margin-inline-end: 0;
-  }
+  } */ 
 
   /* this holds the "Correct Answers" text and the reset and log high score buttons */
-  .scoreContainer {
+  /* .scoreContainer {
     justify-content: center;
     display: flex;
     height: 80pt;
-  }
+  } */
 
   /* this is the Reset Score button */
-  .resetScore {
+  /* .resetScore {
       margin: 10pt;
       margin-bottom: 5pt;
       justify-content: center;
       padding: 10pt;
-  }
+  } */
 
   /* this is the Log High Score button */
-  .logHighScore {
+  /* .logHighScore {
     margin: 10pt;
     justify-content: center;
     padding: 10pt;
     /* box-sizing: initial; */
-  }
+  /* } */ 
 
   /* this is the footer */
 h6 {
@@ -146,4 +208,4 @@ h6 {
     margin-left: 10px;
     margin-right: 10px;
     margin-bottom: 0;
-    }
+    } */
