@@ -20,7 +20,7 @@ const answer3 = document.getElementById("answer3");
 const answer4 = document.getElementById("answer4");
 
 // this is the question array for the quiz, with multiple choice answers and correct answer
-// for scoring purposes
+// for scoring purposes.
 const qAndA = [
     {
         question: "Where do you link JavaScript in the HTML?",
