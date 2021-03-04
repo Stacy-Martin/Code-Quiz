@@ -77,16 +77,14 @@ answerCorrect.style.display = "none";
 answerWrong.style.display = "none";
 
 //Kick off the quiz, press start button and event listener for timer to begin
-start.addEventListener("click", quiz);
+start.addEventListener("click", () => quiz());
 // view high scores button reveals the high scores section
 viewHighScores.addEventListener("click", viewHighScoresButton);
 
-
-//Quiz formatting and timer
-
+var quizTimer = 25;
+var playerScore = 0;
+//create the quiz and its time and associated formatting
 function quiz(i=0) {
-    var quizTimer = 25;
-    var playerScore = 0;
     // var i = 0;
     var timerInterval = setInterval(function () {
         answer1.style.visibility = "visible";
@@ -103,7 +101,8 @@ function quiz(i=0) {
         quizTimer--;
         timerDisplay.textContent = ("Score: " + playerScore + "   Time: " + quizTimer);
 
-        //determines when to call final page
+        //if any of these happen (high score button is pressed, timer reaches 0, or the final
+        // question is answered) then the high scores page is called 
         if (hsPage.called === true || quizTimer === 0 || finalQuestion === true) {
             var finalScore = quizTimer + playerScore;
             clearInterval(timerInterval);
@@ -111,12 +110,12 @@ function quiz(i=0) {
             return;
         }
     }, 1000)
-    questionMaker(i);
+    questionGenerator(i);
 }
 
-//generates the questions and answers
+//creates the questions and answer form 
 var finalQuestion = false;
-function questionMaker(i) {
+function questionGenerator(i) {
     if (i === qAndA.length) {
         finalQuestion = true;
         return;
@@ -128,7 +127,7 @@ function questionMaker(i) {
     answer3.textContent = qAndA[i].answer3;
     answer4.textContent = qAndA[i].answer4;
 
-    //event listener for answers
+    //adds an event listener to select on answer
     answer1.addEventListener("click", function () {
         answerCheck(answer1, i);
     });
@@ -158,13 +157,13 @@ function answerCheck(answer, i) {
             i++;
             iterationChecker++;
             answerCorrect.style.display = "block";
-            return questionMaker(i);
+            return questionGenerator(i);
         }
         else {
             i++;
             iterationChecker++;
             answerWrong.style.display = "block";
-            return questionMaker(i);
+            return questionGenerator(i);
         };
     }
 }
