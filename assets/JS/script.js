@@ -1,21 +1,21 @@
 //DOM elements
-var start = document.querySelector("#startQuizBtn");
-var mainEl = document.querySelector(".instructionsP");
-var headEl = document.querySelector(".quizInfo");
-var jumbo = document.querySelector(".jumbotron");
-var timerDisplay = document.getElementById("timer");
-var viewHighScores = document.getElementById("highScoresBtn");
+const start = document.querySelector("#startQuizBtn");
+const mainEl = document.querySelector(".instructionsP");
+const headEl = document.querySelector(".quizInfo");
+const jumbo = document.querySelector(".jumbotron");
+const timerDisplay = document.getElementById("timer");
+const viewHighScores = document.getElementById("highScoresBtn");
 const questions = document.querySelector(".questions");
-var answerList = document.querySelector("#questionList");
-var answerbox1 = document.getElementById("answer1");
-var answerbox2 = document.getElementById("answer2");
-var answerbox3 = document.getElementById("answer3");
-var answerbox4 = document.getElementById("answer4");
-var scoreBoard = document.querySelector("#scores");
-var clearScores = document.querySelector(".clearBtn");
-var restartQuiz = document.querySelector(".restartBtn");
-var answerResponseCorrect = document.querySelector(".rightAnswer");
-var answerResponseWrong = document.querySelector(".wrongAnswer");
+const answerList = document.querySelector("#questionList");
+const answerbox1 = document.getElementById("answer1");
+const answerbox2 = document.getElementById("answer2");
+const answerbox3 = document.getElementById("answer3");
+const answerbox4 = document.getElementById("answer4");
+const scoreBoard = document.querySelector("#scores");
+const clearScores = document.querySelector(".clearBtn");
+const restartQuiz = document.querySelector(".restartBtn");
+const answerResponseCorrect = document.querySelector(".rightAnswer");
+const answerResponseWrong = document.querySelector(".wrongAnswer");
 // var underAnswerLine = document.querySelector(".underAnswerLine");
 
 //Hiding buttons and Elements
@@ -27,8 +27,8 @@ answer4.style.visibility = "hidden";
 // questions.style.visibility = "hidden";
 clearScores.style.visibility = "hidden";
 restartQuiz.style.visibility = "hidden";
-answerResponseCorrect.style.display = "none";
-answerResponseWrong.style.display = "none";
+// answerResponseCorrect.style.display = "none";
+// answerResponseWrong.style.display = "none";
 // underAnswerLine.style.display = "none";
 
 //First page event listeners
@@ -196,11 +196,12 @@ function finalPage(finalScore) {
     // if (answerResponseCorrect.style.display === "block") {
     //     answerResponseCorrect.style.display = "none";
     // }
-    scoreBoard.textContent = "High Scores:";
+    scoreBoard.textContent = "User High Scores:";
     scoreBoard.style.fontSize = "20px";
     finalPage.called = true;
-    headEl.style.visibility = "visible";
-    headEl.textContent = "Nice Work!";
+    mainEl.style.visibility = "hidden";
+    headEl.style.visibility = "hidden";
+    // headEl.textContent = "Nice Work!";
 
     //Setting to local storage
     var name = prompt("Nice work! You earned a score of " + finalScore + "! Please enter your name to record your score.");
