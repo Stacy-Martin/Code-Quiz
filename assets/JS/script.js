@@ -82,23 +82,6 @@ start.addEventListener("click", quiz);
 viewHighScores.addEventListener("click", viewHighScoresButton);
 
 
-
-//Countdown
-// var secondsLeft = 4;
-// function firstTimer() {
-//     var timerInterval = setInterval(function () {
-//         secondsLeft--;
-//         mainEl.textContent = secondsLeft;
-//         mainEl.style.fontSize = "150px";
-//         headEl.textContent = "Starts in";
-//         start.style.visibility = "hidden";
-//         if (secondsLeft === 0) {
-//             clearInterval(timerInterval);
-//             quiz(i=0);
-//         }
-//     }, 1000);
-// }
-
 //Quiz formatting and timer
 
 function quiz(i=0) {
