@@ -19,7 +19,8 @@ const answer2 = document.getElementById("answer2");
 const answer3 = document.getElementById("answer3");
 const answer4 = document.getElementById("answer4");
 
-// this is the question array1 for the quiz
+// this is the question array for the quiz, with multiple choice answers and correct answer
+// for scoring purposes
 const qAndA = [
     {
         question: "Where do you link JavaScript in the HTML?",
@@ -81,8 +82,9 @@ start.addEventListener("click", () => quiz());
 // view high scores button reveals the high scores section
 viewHighScores.addEventListener("click", viewHighScoresButton);
 
-var quizTimer = 25;
-var playerScore = 0;
+// start the timer at 26 so first number displayed is 25
+var quizTimer = 26;
+var userScore = 0;
 //create the quiz and its time and associated formatting
 function quiz(i=0) {
     // var i = 0;
@@ -98,18 +100,20 @@ function quiz(i=0) {
         mainEl.textContent = "";
         headEl.textContent = "";
         jumbo.style.paddingTop = "5px";
+        // this actually starts the timer:
         quizTimer--;
-        timerDisplay.textContent = ("Score: " + playerScore + "   Time: " + quizTimer);
+        timerDisplay.textContent = ("Score: " + userScore + "   Time: " + quizTimer);
 
         //if any of these happen (high score button is pressed, timer reaches 0, or the final
         // question is answered) then the high scores page is called 
         if (hsPage.called === true || quizTimer === 0 || finalQuestion === true) {
-            var finalScore = quizTimer + playerScore;
+            var finalScore = quizTimer + userScore;
             clearInterval(timerInterval);
             hsPage(finalScore);
             return;
         }
     }, 1000)
+    // after creating the quiz format, the questions are generated:
     questionGenerator(i);
 }
 
@@ -127,7 +131,7 @@ function questionGenerator(i) {
     answer3.textContent = qAndA[i].answer3;
     answer4.textContent = qAndA[i].answer4;
 
-    //adds an event listener to select on answer
+    //adds an event listener to select for each answer
     answer1.addEventListener("click", function () {
         answerCheck(answer1, i);
     });
@@ -142,7 +146,8 @@ function questionGenerator(i) {
     });
 }
 
-//checks if clicked answer is correct
+//scoring if user chose correct answer
+// i really dont know how this works ??  ******
 var iterationChecker = 0;    
 function answerCheck(answer, i) {
     if (iterationChecker === i) {
@@ -153,7 +158,7 @@ function answerCheck(answer, i) {
             answerCorrect.style.display = "none";
         };
         if (answer.textContent === qAndA[i].correct) {
-            playerScore = playerScore + 10;
+            userScore = userScore + 10;
             i++;
             iterationChecker++;
             answerCorrect.style.display = "block";
@@ -168,12 +173,15 @@ function answerCheck(answer, i) {
     }
 }
 
-//finalPage
+//High scores generator
 function hsPage(finalScore) {
 
-    //general formatting
+    //formats the high scores card and makes certain elements disappear
     answerList.remove();
     questions.remove();
+    answerWrong.style.display = "none";
+    answerCorrect.style.display = "none";
+    start.style.display = "none";
     timerDisplay.remove();
     scoreBoard.textContent = "User High Scores:";
     scoreBoard.style.fontSize = "40px";
@@ -181,7 +189,7 @@ function hsPage(finalScore) {
     mainEl.style.visibility = "hidden";
     headEl.style.visibility = "hidden";
 
-    //Setting to local storage with a prompt to enter user initials
+    //prompting user to enter initials
     var initials = prompt("You did it, your score was " + finalScore + "! Please enter your initials and check out your ranking.");
     if (initials === "") {
         initials = prompt("You did it, your score was " + finalScore + "! Please enter your initials and check out your ranking.");
@@ -219,7 +227,7 @@ function generateHighScores() {
         scoreBoard.appendChild(li);
     }
 
-    //clear highscores button
+    //clear high scores button becomes visible
     clearScores.style.visibility = "visible";
     clearScores.textContent = "Clear Highscores";
     clearScores.addEventListener("click", function () {
@@ -228,7 +236,7 @@ function generateHighScores() {
         clearScores.remove();
     });
 
-    //restart quiz button
+    //restart quiz button becomes visible
     restartQuiz.style.visibility = "visible";
     restartQuiz.textContent = "Restart Quiz";
     restartQuiz.addEventListener("click", function () {
@@ -253,6 +261,7 @@ function viewHighScoresButton() {
    
 
     // this is where the scores are stored to create the high scores list
+    // research what this is doing more *****
     var localScore = [];
     var localOrderedScore = [];
     localScore = JSON.parse(localStorage.getItem("allScores"));
@@ -267,7 +276,7 @@ function viewHighScoresButton() {
         scoreBoard.appendChild(li);
     }
 
-    //restarting the quiz 
+    //create restart quiz button 
     restartQuiz.textContent = "Restart";
     restartQuiz.style.visibility = "visible";
     restartQuiz.addEventListener("click", function () {
@@ -275,30 +284,11 @@ function viewHighScoresButton() {
     });
     }
 
-    //clearing the high scores 
+    //create clear high scores button
     clearScores.textContent = "Clear Scores";
     clearScores.addEventListener("click", function () {
         localStorage.clear();
         scoreBoard.remove();
+        // remove clear scores button after pressed and functionality is complete
         clearScores.remove();
     });
-
-
-// var declarations are globally scoped or function scoped 
-// while let and const are block scoped - let is limited to 
-// the block in which it is declared while variable declared. 
-// var variables can be updated and re-declared within its scope; 
-// let variables can be updated but not re-declared; 
-// const variables can neither be updated nor re-declared. 
-// They are all hoisted to the top of their scope.
-
-// var uses something called ‘hoisting’, which can lead to unexpected results.
-// let and const are both block-scoped. Which means you can declare them in for loop or 
-// if statement, and they will only be valid for that block. This helps with spotting 
-// bugs and makes your code more robust. const prevents variable re-assignment.
-
-// In the case for the for loop. Every iteration of the loop is a new ‘block scope’, so 
-// I am in fact able to re-create a new constant for every iteration.
-
-// It’s useful to use const instead of let, because it prevents you from accidentally 
-// overwriting variables. 
