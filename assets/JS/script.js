@@ -21,6 +21,18 @@ const answer4 = document.getElementById("answer4");
 
 // this is the question array for the quiz, with multiple choice answers and correct answer
 // for scoring purposes.
+
+//falsy types include null and undefined
+
+/**
+ * KAT'S INSTRUCTIONS:
+ * 1. Remove alerts
+ * 2. Hide the questions and show a form inside (these should be elements on your index page)
+ * //form could be textarea, needs a submit button meaning event listener
+ * 3. Parse through this form to get the initials, then redirect to the highscore page on submit.
+ * 4. This information can be sent through the same code you have for local storage!
+ */
+
 const qAndA = [
     {
         question: "Where do you link JavaScript in the HTML?",
@@ -86,6 +98,9 @@ viewHighScores.addEventListener("click", viewHighScoresButton);
 var quizTimer = 25;
 var userScore = 0;
 //create the quiz and its time and associated formatting
+
+//i actually represents where you are within the array of questions
+//it's an index
 function quiz(i=0) {
     // var i = 0;
     var timerInterval = setInterval(function () {
@@ -101,12 +116,12 @@ function quiz(i=0) {
         headEl.textContent = "";
         jumbo.style.paddingTop = "5px";
         // this actually starts the timer:
-        timerDisplay.textContent = ("Score: " + userScore + "   Time: " + quizTimer);
+        timerDisplay.textContent =  "Time: " + quizTimer;
         quizTimer--;
 
         //if any of these happen (high score button is pressed, timer reaches 0, or the final
         // question is answered) then the high scores page is called 
-        if (hsPage.called === true || quizTimer === 0 || finalQuestion === true) {
+        if (hsPage.called === true || quizTimer <= 0 || finalQuestion === true) {
             var finalScore = quizTimer + userScore;
             clearInterval(timerInterval);
             hsPage(finalScore);
@@ -114,6 +129,7 @@ function quiz(i=0) {
         }
     }, 1000)
     // after creating the quiz format, the questions are generated:
+    document.getElementById("score_display").textContent = "Score: " + userScore;
     questionGenerator(i);
 }
 
@@ -132,6 +148,7 @@ function questionGenerator(i) {
     answer4.textContent = qAndA[i].answer4;
 
     //adds an event listener to select for each answer
+    //we wait for the user to select an answer before the next question is generated
     answer1.addEventListener("click", function () {
         answerCheck(answer1, i);
     });
@@ -157,19 +174,25 @@ function answerCheck(answer, i) {
         else if (answerCorrect.style.display === "block") {
             answerCorrect.style.display = "none";
         };
+
+        //what answer is doing...
+        //is passing through the element you clicked on from questionGenerator
+        //this compares the current question's correct value
+        //with 
         if (answer.textContent === qAndA[i].correct) {
             userScore = userScore + 10;
-            i++;
-            iterationChecker++;
             answerCorrect.style.display = "block";
-            return questionGenerator(i);
         }
         else {
-            i++;
-            iterationChecker++;
+            //means the same thing as userScore = userScore - 5;
+            userScore -= 5;
+            quizTimer -= 5;
             answerWrong.style.display = "block";
-            return questionGenerator(i);
-        };
+        }
+        i++;
+        iterationChecker++;
+        document.getElementById("score_display").textContent = "Score: " + userScore;
+        return questionGenerator(i);
     }
 }
 
@@ -191,7 +214,8 @@ function hsPage(finalScore) {
 
     //prompting user to enter initials
     var initials = prompt("You did it, your score was " + finalScore + "! Please enter your initials and check out your ranking.");
-    if (initials === "") {
+    
+    while(!initials) {
         initials = prompt("You did it, your score was " + finalScore + "! Please enter your initials and check out your ranking.");
     }
     rankings(initials, finalScore);
