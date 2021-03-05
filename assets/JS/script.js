@@ -83,7 +83,7 @@ start.addEventListener("click", () => quiz());
 viewHighScores.addEventListener("click", viewHighScoresButton);
 
 // start the timer at 26 so first number displayed is 25
-var quizTimer = 26;
+var quizTimer = 25;
 var userScore = 0;
 //create the quiz and its time and associated formatting
 function quiz(i=0) {
@@ -101,8 +101,8 @@ function quiz(i=0) {
         headEl.textContent = "";
         jumbo.style.paddingTop = "5px";
         // this actually starts the timer:
-        quizTimer--;
         timerDisplay.textContent = ("Score: " + userScore + "   Time: " + quizTimer);
+        quizTimer--;
 
         //if any of these happen (high score button is pressed, timer reaches 0, or the final
         // question is answered) then the high scores page is called 
